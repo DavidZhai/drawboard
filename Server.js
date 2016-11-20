@@ -1,27 +1,20 @@
-//Lets require/import the HTTP module
-const http = require('http');
-const hostname ='127.0.0.1';
+const dgram = require('dgram');
+const server = dgram.createSocket('udp4');
+const PORT = 41234;
+const HOST = 'localhost';
 
-//Lets define a port we want to listen to
-const PORT=8080;
-
-//We need a function which handles requests and send response
-function handleRequest(request, response){
-    response.end('It Works!! Path Hit: ' + request.url);
-}
-
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World\n');
+server.on('error', (err) => {
+  console.log(`server error:\n${err.stack}`);
+  server.close();
 });
 
-//Create a server
-var server = http.createServer(handleRequest);
-
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
-    console.log("Server listening on: http://localhost:%s", PORT);
-
+server.on('message', (msg, rinfo) => {
+  console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 });
+
+server.on('listening', () => {
+  var address = server.address();
+  console.log(`server listening ${address.address}:${address.port}`);
+});
+
+server.bind(PORT, HOST);
