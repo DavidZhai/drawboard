@@ -1,0 +1,5 @@
+1. Drawing
+2. Erase
+3. Colors?
+4. Clear
+5. Upload Picture
