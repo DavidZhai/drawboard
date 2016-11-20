@@ -2,4 +2,9 @@
 2. Erase
 3. Colors?
 4. Clear
-5. Upload Picture
+
+5. Upload Picture as background, download the image
+6. Shapes, circles, rectangles
+7. emojis, stickers
+8. Chatroom name, list of users- no profile, just enter name
+9.
