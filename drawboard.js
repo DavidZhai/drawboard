@@ -1,0 +1,16 @@
+var app = angular.module('drawboardApp', []);
+
+app.controller('drawboardCtrl', function($scope) {
+
+	$scope.text = "";
+
+	$scope.submit = function() {
+		// const dgram = require('dgram');
+		// const message = Buffer.from('Some bytes');
+		// const client = dgram.createSocket('udp4');
+		// client.send(message, 41234, 'localhost', (err) => {
+		//   client.close();
+		// });
+		console.log($scope.text);
+	};
+}); 
