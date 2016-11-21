@@ -1,16 +1,26 @@
  <!DOCTYPE html>
 <html lang="en-US">
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="drawboard.js"></script>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.6.0/socket.io.min.js"></script>
+
+  <!-- <script src="/drawboard.js">
+
+  </script> -->
+  <script>
+    var socket = io();
+  </script>
+</head>
 <body>
 
-<div ng-app="drawboardApp">
-  	<form ng-submit="submit()" ng-controller="drawboardCtrl">
+<div>
+  	<form>
 	  Enter text and hit enter:
-	  <input type="text" ng-model="text" name="text" />
+	  <input type="text" name="text" />
 	  <input type="submit" id="submit" value="Submit" />
 	</form>
 </div>
 
 </body>
-</html> 
+</html>

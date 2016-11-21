@@ -1,0 +1,9 @@
+{
+  "name": "drawboard",
+  "version": "0.0.1",
+  "description": "Collaborative drawing panel",
+  "dependencies": {
+    "express": "^4.10.2",
+    "socket.io": "^1.6.0"
+  }
+}
