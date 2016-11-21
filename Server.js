@@ -3,10 +3,12 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var PORT = 8080;
 
+// serve the webpage
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+// socket io operations
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('chat message', function(msg){
