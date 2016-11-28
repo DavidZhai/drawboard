@@ -16,8 +16,11 @@
 }
 
 #drawingPanel {
-	width: 200px;
-	height: 200px;
+	/* don't touch height/width in css */
 	border: 1px solid #000000;
+	clear: both;
 }
 
+#drawingPanel:hover {
+	cursor: crosshair;
+}
