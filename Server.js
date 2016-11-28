@@ -23,6 +23,11 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+
+  socket.on('server draw line', function(previousX, previousY, x, y) {
+    io.emit('client draw line', previousX, previousY, x, y);
+    console.log("Received coordinates: " +previousX+','+previousY);
+  });
 });
 
 http.listen(PORT, function(){
