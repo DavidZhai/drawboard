@@ -2,14 +2,31 @@ var socket = io();
 
 var panel = document.getElementById('drawingPanel');
 var clearButton = document.getElementById('clearButton');
+var imageUploader = document.getElementById('imageUpload');
 var isDrawing = false;  //toggle for drawing 
 var previousX;
 var previouxY;
+
+imageUploader.addEventListener('change', uploadImage, false);
 
 clearButton.addEventListener('click', function(e) {
   console.log("clear");
   socket.emit('server clear canvas');
 });
+
+function uploadImage(e){
+    var reader = new FileReader();
+    var context = panel.getContext("2d");
+    reader.onload = function(event){
+        var img = new Image();
+        img.onload = function(){
+            context.drawImage(img, 0, 0);
+        }
+        img.src = event.target.result;
+        socket.emit('server draw image', event.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);     
+}
 
 panel.addEventListener('mousemove', function(e) {
   draw(e);
@@ -56,6 +73,15 @@ socket.on('client clear canvas', function() {
   //context.clearRect(0, 0, panel.width, panel.height);
   panel.width = panel.width;
   console.log("clearing");
+
+});
+
+socket.on('client draw image', function(info) { 
+  var context = panel.getContext("2d");
+  var img = new Image();
+  img.src = info;
+  context.drawImage(img, 0, 0);
+
 
 });
 
