@@ -40,13 +40,13 @@ panel.addEventListener("mouseup", function(e) {
   isDrawing = false;
 });
 
-// every 10 milliseconds poll for drawing
+// every 50 milliseconds poll for drawing updates
 setInterval(function(){
   if (drawingBuffer.length > 0) {
     socket.emit('server draw batch lines', drawingBuffer);
     drawingBuffer = [];
   }
-}, 10);
+}, 50);
 
 function draw(e) {
   /* needed to find relative location to window */
