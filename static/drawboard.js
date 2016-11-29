@@ -21,10 +21,9 @@ function uploadImage(e){
     reader.onload = function(event){
         var img = new Image();
         img.onload = function(){
-            context.drawImage(img, 0, 0);
+          socket.emit('server draw image', event.target.result, img.height, img.width);
         }
         img.src = event.target.result;
-        socket.emit('server draw image', event.target.result);
     }
     reader.readAsDataURL(e.target.files[0]);     
 }
@@ -83,13 +82,11 @@ socket.on('client clear canvas', function() {
 
 });
 
-socket.on('client draw image', function(info) { 
+socket.on('client draw image', function(image, height, width) { 
   var context = panel.getContext("2d");
   var img = new Image();
-  img.src = info;
-  context.drawImage(img, 0, 0);
-
-
+  img.src = image;
+  context.drawImage(img, 0, 0, width, height, 0, 0, panel.width, panel.height);
 });
 
 socket.on('client draw batch lines', function(serverDrawingPanel){
