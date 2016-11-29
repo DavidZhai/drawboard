@@ -33,8 +33,8 @@ io.on('connection', function(socket){
     io.emit('client clear canvas');
   });
 
-  socket.on('server draw image', function(image) {
-    io.emit('client draw image', image);
+  socket.on('server draw image', function(image, height, width) {
+    io.emit('client draw image', image, height, width);
   });
 
 });
