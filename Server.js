@@ -5,6 +5,9 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var PORT = 8080;
 
+// stores the master copy of drawings on the canvas
+var serverDrawBuffer = [];
+
 // use this to serve static files like .js and .css
 app.use(express.static('static'));
 
@@ -24,9 +27,8 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
 
-  socket.on('server draw line', function(previousX, previousY, x, y) {
-    io.emit('client draw line', previousX, previousY, x, y);
-    console.log("Received coordinates: " +previousX+','+previousY);
+  socket.on('server draw batch lines', function(drawingBuffer) {
+    io.emit('client draw batch lines', drawingBuffer);
   });
 
   socket.on('server clear canvas', function() {

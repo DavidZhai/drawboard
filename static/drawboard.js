@@ -3,7 +3,8 @@ var socket = io();
 var panel = document.getElementById('drawingPanel');
 var clearButton = document.getElementById('clearButton');
 var imageUploader = document.getElementById('imageUpload');
-var isDrawing = false;  //toggle for drawing 
+var isDrawing = false;  //toggle for drawing
+var drawingBuffer = [];
 var previousX;
 var previouxY;
 
@@ -30,7 +31,6 @@ function uploadImage(e){
 
 panel.addEventListener('mousemove', function(e) {
   draw(e);
- // socket.emit()
 });
 
 panel.addEventListener("mousedown", function(e) {
@@ -39,11 +39,17 @@ panel.addEventListener("mousedown", function(e) {
 
 panel.addEventListener("mouseup", function(e) {
   isDrawing = false;
-  console.log("mouseup");
-})
+});
+
+// every 10 milliseconds poll for drawing
+setInterval(function(){
+  if (drawingBuffer.length > 0) {
+    socket.emit('server draw batch lines', drawingBuffer);
+    drawingBuffer = [];
+  }
+}, 10);
 
 function draw(e) {
-
   /* needed to find relative location to window */
   var rect = panel.getBoundingClientRect();
   var canvasTop = parseInt(rect.top);
@@ -55,11 +61,12 @@ function draw(e) {
   var y = e.clientY - canvasTop;
   if (isDrawing) {
     var pen = panel.getContext("2d");
-    // pen.moveTo(previousX, previousY);
-    // pen.lineTo(x, y);
-    // pen.stroke();
-    socket.emit('server draw line', previousX, previousY, x, y);
-
+    drawingBuffer.push({
+      previousX: previousX,
+      previousY: previousY,
+      x: x,
+      y: y
+    })
   }
   previousX = x;
   previousY = y;
@@ -85,25 +92,11 @@ socket.on('client draw image', function(info) {
 
 });
 
-socket.on('client draw line', function(previousX, previousY, x, y){
-    var pen = panel.getContext("2d");
-    pen.moveTo(previousX, previousY);
-    pen.lineTo(x, y);
+socket.on('client draw batch lines', function(serverDrawingPanel){
+  var pen = panel.getContext("2d");
+  serverDrawingPanel.forEach(function(line) {
+    pen.moveTo(line.previousX, line.previousY);
+    pen.lineTo(line.x, line.y);
     pen.stroke();
   });
-// function drawOnMouse(e) {
-//   var pen = panel.getContext("2d");
-//   pen.moveTo(0, 0);
-//   pen.lineTo(e.clientX - canvasLeft ,e.clientY - canvasTop);
-//   pen.stroke();  
-// }
-
-   /*
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });*/
+});
