@@ -28,6 +28,11 @@ io.on('connection', function(socket){
     io.emit('client draw line', previousX, previousY, x, y);
     console.log("Received coordinates: " +previousX+','+previousY);
   });
+
+  socket.on('server clear canvas', function() {
+    io.emit('client clear canvas');
+  });
+
 });
 
 http.listen(PORT, function(){

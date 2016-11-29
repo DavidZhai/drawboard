@@ -19,8 +19,24 @@
 	/* don't touch height/width in css */
 	border: 1px solid #000000;
 	clear: both;
+    width: 500px;
+    height: 400px;
 }
 
 #drawingPanel:hover {
 	cursor: crosshair;
 }
+
+#demo {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#mainArea {
+    width: 500px;
+    margin: 0 auto;
+}
+
+
+

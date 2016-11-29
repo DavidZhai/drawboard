@@ -1,9 +1,15 @@
 var socket = io();
 
 var panel = document.getElementById('drawingPanel');
+var clearButton = document.getElementById('clearButton');
 var isDrawing = false;  //toggle for drawing 
 var previousX;
 var previouxY;
+
+clearButton.addEventListener('click', function(e) {
+  console.log("clear");
+  socket.emit('server clear canvas');
+});
 
 panel.addEventListener('mousemove', function(e) {
   draw(e);
@@ -44,6 +50,14 @@ function draw(e) {
   var coor = "Coordinates: (" + x + "," + y + ")";
   document.getElementById("demo").innerHTML = coor;
 }
+
+socket.on('client clear canvas', function() {
+  var context = panel.getContext("2d");
+  //context.clearRect(0, 0, panel.width, panel.height);
+  panel.width = panel.width;
+  console.log("clearing");
+
+});
 
 socket.on('client draw line', function(previousX, previousY, x, y){
     var pen = panel.getContext("2d");
