@@ -7,6 +7,7 @@ var PORT = 8080;
 
 // stores the master copy of drawings on the canvas
 var masterBuffer = [];
+var masterBackground = {};
 
 // use this to serve static files like .js and .css
 app.use(express.static('static'));
@@ -19,6 +20,7 @@ app.get('/', function(req, res){
 // socket io operations
 io.on('connection', function(socket){
   console.log('a user connected');
+  if (masterBackground.hasOwnProperty('img')) io.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
   socket.emit('client draw batch lines', masterBuffer);  // send client master copy
   socket.on('chat message', function(msg){
   	console.log(msg);
@@ -27,6 +29,11 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+
+  // socket.on('server erase rectangle', function(erasingBuffer) {
+  //   eraseBuffer.push.apply(eraseBuffer, erasingBuffer);
+  //   io.emit('client erase rectangle', erasingBuffer);
+  // });
 
   socket.on('server draw batch lines', function(drawingBuffer) {
     masterBuffer.push.apply(masterBuffer, drawingBuffer);
@@ -39,6 +46,7 @@ io.on('connection', function(socket){
   });
 
   socket.on('server draw image', function(image, height, width) {
+    masterBackground = {img : image, imgHeight : height, imgWidth : width};
     io.emit('client draw image', image, height, width);
   });
   // synchronize with server every 5 seconds

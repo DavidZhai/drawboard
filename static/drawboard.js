@@ -2,9 +2,13 @@ var socket = io();
 
 var panel = document.getElementById('drawingPanel');
 var clearButton = document.getElementById('clearButton');
+var useEraser = document.getElementById('eraser');
+var usePen = document.getElementById('pen');
 var imageUploader = document.getElementById('imageUpload');
 var downloadButton = document.getElementById('downloadButton');
 var isDrawing = false;  //toggle for drawing
+var usingEraser = false;
+var isMoving = false;  //toggle for drawing
 var drawingBuffer = [];
 var previousX;
 var previouxY;
@@ -12,11 +16,21 @@ var previouxY;
 imageUploader.addEventListener('change', uploadImage, false);
 
 downloadButton.addEventListener('click', function(e) {
-    console.log("download");
-    var link = document.createElement('a');
-    link.download = "drawBoard.png";
-    link.href = panel.toDataURL("image/png").replace("image/png", "image/octet-stream");;
-    link.click();
+  console.log("download");
+  var link = document.createElement('a');
+  link.download = "drawBoard.png";
+  link.href = panel.toDataURL("image/png").replace("image/png", "image/octet-stream");;
+  link.click();
+});
+
+usePen.addEventListener('click', function(e) {
+  console.log("Switch to pen");
+  usingEraser = false;
+});
+
+useEraser.addEventListener('click', function(e) {
+  console.log("Switch to eraser");
+  usingEraser = true;
 });
 
 clearButton.addEventListener('click', function(e) {
@@ -42,11 +56,11 @@ panel.addEventListener('mousemove', function(e) {
 });
 
 panel.addEventListener("mousedown", function(e) {
-  isDrawing = true;
+  isMoving = true;
 });
 
 panel.addEventListener("mouseup", function(e) {
-  isDrawing = false;
+  isMoving = false;
 });
 
 // every 50 milliseconds poll for drawing updates
@@ -67,13 +81,14 @@ function draw(e) {
   
   var x = e.clientX - canvasLeft;
   var y = e.clientY - canvasTop;
-  if (isDrawing) {
+  if (isMoving) {
     var pen = panel.getContext("2d");
     drawingBuffer.push({
       previousX: previousX,
       previousY: previousY,
       x: x,
-      y: y
+      y: y,
+      erase: usingEraser  // temporal fix  boolean indiates eraser
     })
   }
   previousX = x;
@@ -98,12 +113,32 @@ socket.on('client draw image', function(image, height, width) {
   context.drawImage(img, 0, 0, width, height, 0, 0, panel.width, panel.height);
 });
 
-socket.on('client draw batch lines', function(serverDrawingPanel){
+// socket.on('client erase rectangle', function(serverErasingPanel) {
+//   var pen = panel.getContext("2d");
+//   serverErasingPanel.forEach(function(line) {
+//     pen.clearRect(line.previousX, line.previousY, 20, 20);
+//   });
+// });
+
+socket.on('client draw batch lines', function(serverDrawingPanel) {
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
+    console.log(line);
+    // if (line.erase) {
+    //   pen.clearRect(line.previousX, line.previousY, 10, 10);
+    // } else {
+    pen.beginPath();
     pen.moveTo(line.previousX, line.previousY);
     pen.lineTo(line.x, line.y);
+    if (line.erase) {
+      pen.strokeStyle = '#FFFFFF';
+      pen.lineWidth= 15;
+    } else {
+      pen.strokeStyle = '#000000';
+      pen.lineWidth= 1;
+    }
     pen.stroke();
+    // }
   });
 });
 
