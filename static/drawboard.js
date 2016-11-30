@@ -42,11 +42,6 @@ function uploadImage(e){
 }
 
 panel.addEventListener('mousemove', function(e) {
-  // if (usingEraser) {
-  //   erase(e);
-  // } else {
-  //   draw(e);  
-  // }
   draw(e);
 });
 
@@ -61,11 +56,7 @@ panel.addEventListener("mouseup", function(e) {
 // every 50 milliseconds poll for drawing updates
 setInterval(function(){
   if (drawingBuffer.length > 0) {
-    if (usingEraser) {
-      socket.emit('server erase rectangle', drawingBuffer);
-    } else {
-      socket.emit('server draw batch lines', drawingBuffer);
-    }
+    socket.emit('server draw batch lines', drawingBuffer);
     drawingBuffer = [];
   }
 }, 50);
@@ -86,7 +77,8 @@ function draw(e) {
       previousX: previousX,
       previousY: previousY,
       x: x,
-      y: y
+      y: y,
+      erase: usingEraser  // temporal fix  boolean indiates eraser
     })
   }
   previousX = x;
@@ -111,19 +103,31 @@ socket.on('client draw image', function(image, height, width) {
   context.drawImage(img, 0, 0, width, height, 0, 0, panel.width, panel.height);
 });
 
-socket.on('client erase rectangle', function(serverErasingPanel) {
-  var pen = panel.getContext("2d");
-  serverErasingPanel.forEach(function(line) {
-    pen.clearRect(line.previousX, line.previousY, 20, 20);
-  });
-});
+// socket.on('client erase rectangle', function(serverErasingPanel) {
+//   var pen = panel.getContext("2d");
+//   serverErasingPanel.forEach(function(line) {
+//     pen.clearRect(line.previousX, line.previousY, 20, 20);
+//   });
+// });
 
 socket.on('client draw batch lines', function(serverDrawingPanel) {
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
     console.log(line);
+    // if (line.erase) {
+    //   pen.clearRect(line.previousX, line.previousY, 10, 10);
+    // } else {
+    pen.beginPath();
     pen.moveTo(line.previousX, line.previousY);
     pen.lineTo(line.x, line.y);
+    if (line.erase) {
+      pen.strokeStyle = '#FFFFFF';
+      pen.lineWidth= 15;
+    } else {
+      pen.strokeStyle = '#000000';
+      pen.lineWidth= 1;
+    }
     pen.stroke();
+    // }
   });
 });
