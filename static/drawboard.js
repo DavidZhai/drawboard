@@ -3,12 +3,21 @@ var socket = io();
 var panel = document.getElementById('drawingPanel');
 var clearButton = document.getElementById('clearButton');
 var imageUploader = document.getElementById('imageUpload');
+var downloadButton = document.getElementById('downloadButton');
 var isDrawing = false;  //toggle for drawing
 var drawingBuffer = [];
 var previousX;
 var previouxY;
 
 imageUploader.addEventListener('change', uploadImage, false);
+
+downloadButton.addEventListener('click', function(e) {
+    console.log("download");
+    var link = document.createElement('a');
+    link.download = "drawBoard.png";
+    link.href = panel.toDataURL("image/png").replace("image/png", "image/octet-stream");;
+    link.click();
+});
 
 clearButton.addEventListener('click', function(e) {
   console.log("clear");
@@ -46,7 +55,7 @@ setInterval(function(){
     socket.emit('server draw batch lines', drawingBuffer);
     drawingBuffer = [];
   }
-}, 50);
+}, 20);
 
 function draw(e) {
   /* needed to find relative location to window */
@@ -97,3 +106,4 @@ socket.on('client draw batch lines', function(serverDrawingPanel){
     pen.stroke();
   });
 });
+
