@@ -2,13 +2,26 @@ var socket = io();
 
 var panel = document.getElementById('drawingPanel');
 var clearButton = document.getElementById('clearButton');
+var useEraser = document.getElementById('eraser');
+var usePen = document.getElementById('pen');
 var imageUploader = document.getElementById('imageUpload');
-var isDrawing = false;  //toggle for drawing
+var usingEraser = false;
+var isMoving = false;  //toggle for drawing
 var drawingBuffer = [];
 var previousX;
 var previouxY;
 
 imageUploader.addEventListener('change', uploadImage, false);
+
+usePen.addEventListener('click', function(e) {
+  console.log("Switch to pen");
+  usingEraser = false;
+});
+
+useEraser.addEventListener('click', function(e) {
+  console.log("Switch to eraser");
+  usingEraser = true;
+});
 
 clearButton.addEventListener('click', function(e) {
   console.log("clear");
@@ -29,21 +42,30 @@ function uploadImage(e){
 }
 
 panel.addEventListener('mousemove', function(e) {
+  // if (usingEraser) {
+  //   erase(e);
+  // } else {
+  //   draw(e);  
+  // }
   draw(e);
 });
 
 panel.addEventListener("mousedown", function(e) {
-  isDrawing = true;
+  isMoving = true;
 });
 
 panel.addEventListener("mouseup", function(e) {
-  isDrawing = false;
+  isMoving = false;
 });
 
 // every 50 milliseconds poll for drawing updates
 setInterval(function(){
   if (drawingBuffer.length > 0) {
-    socket.emit('server draw batch lines', drawingBuffer);
+    if (usingEraser) {
+      socket.emit('server erase rectangle', drawingBuffer);
+    } else {
+      socket.emit('server draw batch lines', drawingBuffer);
+    }
     drawingBuffer = [];
   }
 }, 50);
@@ -58,7 +80,7 @@ function draw(e) {
   
   var x = e.clientX - canvasLeft;
   var y = e.clientY - canvasTop;
-  if (isDrawing) {
+  if (isMoving) {
     var pen = panel.getContext("2d");
     drawingBuffer.push({
       previousX: previousX,
@@ -89,9 +111,17 @@ socket.on('client draw image', function(image, height, width) {
   context.drawImage(img, 0, 0, width, height, 0, 0, panel.width, panel.height);
 });
 
-socket.on('client draw batch lines', function(serverDrawingPanel){
+socket.on('client erase rectangle', function(serverErasingPanel) {
+  var pen = panel.getContext("2d");
+  serverErasingPanel.forEach(function(line) {
+    pen.clearRect(line.previousX, line.previousY, 20, 20);
+  });
+});
+
+socket.on('client draw batch lines', function(serverDrawingPanel) {
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
+    console.log(line);
     pen.moveTo(line.previousX, line.previousY);
     pen.lineTo(line.x, line.y);
     pen.stroke();
