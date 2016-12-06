@@ -69,9 +69,9 @@ io.on('connection', function(socket){
     masterBackground = {img : image, imgHeight : height, imgWidth : width};
     io.emit('client draw image', image, height, width);
   });
-  setInterval(function() {
-    refresh();
-  }, 5000);
+  // setInterval(function() {
+  //   refresh();
+  // }, 5000);
   // synchronize with server every 5 seconds
   // setInterval(function() {
   //   io.emit('client clear canvas');

@@ -38,6 +38,37 @@
     margin: 0 auto;
 }
 
+.container {
+    position: absolute;
+    width: 85%;
+}
+
+.sidebar > * {
+    color: #fff;
+}
+
+.sidebar {
+    width: 15vw;
+    height: 100vh;
+    background-color: #1a1a1a;
+    position: fixed;
+    right: 0;
+    top: 50px;
+    padding-left: 10px;
+}
+
+.banner {
+    background-color: #1a1a1a;
+    width: 100vw;
+    height: 50px;
+}
+
+.title {
+    margin: 0;
+    padding: 10px;
+    color: #fff;
+}
+
 /* Login Modal taken and modified from http://bootsnipp.com/snippets/featured/clean-modal-login-form */
 
 /****** LOGIN MODAL ******/
@@ -118,3 +149,4 @@
   opacity: 0.6;
   transition: opacity ease 0.5s;
 }
+
