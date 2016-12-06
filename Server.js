@@ -8,6 +8,7 @@ var PORT = 8080;
 // stores the master copy of drawings on the canvas
 var masterBuffer = [];
 var masterBackground = {};
+var connectedUsers = [];
 
 // use this to serve static files like .js and .css
 app.use(express.static('static'));
@@ -19,7 +20,11 @@ app.get('/', function(req, res){
 
 // socket io operations
 io.on('connection', function(socket){
-  console.log('a user connected');
+  socket.on("join" , function(name) {
+    connectedUsers[socket.id] = name;
+    console.log("user " + name + " has joined");
+    socket.emit('user is logged in', name);
+  });
   if (masterBackground.hasOwnProperty('img')) io.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
   socket.emit('client draw batch lines', masterBuffer);  // send client master copy
   socket.on('chat message', function(msg){

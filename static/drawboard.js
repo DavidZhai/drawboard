@@ -6,12 +6,43 @@ var useEraser = document.getElementById('eraser');
 var usePen = document.getElementById('pen');
 var imageUploader = document.getElementById('imageUpload');
 var downloadButton = document.getElementById('downloadButton');
+var loginButton = document.getElementById('login');
 var isDrawing = false;  //toggle for drawing
 var usingEraser = false;
 var isMoving = false;  //toggle for drawing
 var drawingBuffer = [];
 var previousX;
 var previouxY;
+
+$('#login-modal').modal({
+    backdrop: 'static',
+    keyboard: false
+});
+
+//
+// $('#username input').keydown(function(e) {
+//     if (e.keyCode == 13) {
+//       window.alert("hi");
+//     }
+// });
+
+loginButton.addEventListener('click', function(e) {
+  var username = document.getElementById("username").value;
+  socket.emit('join', username);
+  $('#login-modal').modal({
+      backdrop: 'static',
+      keyboard: false
+  });
+});
+
+function loginUser() {
+  var username = document.getElementById("username").value;
+  socket.emit('join', username);
+  $('#login-modal').modal({
+      backdrop: 'static',
+      keyboard: false
+  });
+}
 
 imageUploader.addEventListener('change', uploadImage, false);
 
@@ -48,7 +79,7 @@ function uploadImage(e){
         }
         img.src = event.target.result;
     }
-    reader.readAsDataURL(e.target.files[0]);     
+    reader.readAsDataURL(e.target.files[0]);
 }
 
 panel.addEventListener('mousemove', function(e) {
@@ -78,7 +109,7 @@ function draw(e) {
   var canvasLeft = parseInt(rect.left);
 
   // need to convert to canvas coordinates, look into factoring this out
-  
+
   var x = e.clientX - canvasLeft;
   var y = e.clientY - canvasTop;
   if (isMoving) {
@@ -98,6 +129,11 @@ function draw(e) {
   document.getElementById("demo").innerHTML = coor;
 }
 
+socket.on('user is logged in', function(username) {
+  $('#login-modal').modal('hide');
+  document.getElementById("thisUser").innerHTML = username;
+});
+
 socket.on('client clear canvas', function() {
   var context = panel.getContext("2d");
   //context.clearRect(0, 0, panel.width, panel.height);
@@ -106,7 +142,7 @@ socket.on('client clear canvas', function() {
 
 });
 
-socket.on('client draw image', function(image, height, width) { 
+socket.on('client draw image', function(image, height, width) {
   var context = panel.getContext("2d");
   var img = new Image();
   img.src = image;
@@ -141,4 +177,3 @@ socket.on('client draw batch lines', function(serverDrawingPanel) {
     // }
   });
 });
-

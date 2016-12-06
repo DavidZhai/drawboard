@@ -10,7 +10,24 @@
   </head>
 
   <body>
+
+    <!-- Login modal taken and modified from
+      http://bootsnipp.com/snippets/featured/clean-modal-login-form
+    -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog">
+        <div class="loginmodal-container">
+        	<h1>Welcome to Collaborative Drawing Board!</h1><br>
+          <form>
+        		<input id="username" type="text" name="user" placeholder="Enter your name" pattern=".{3,10}" required title="3 to 10 characters">
+            <button id="login" type="button" class="btn btn-default">Join a room</button>
+          </form>
+        </div>
+      </div>
+	  </div>
+
     <input type="file" id="imageUpload"/>
+
     <div id="mainArea">
       <canvas id="drawingPanel" width="500px" height="400px">Your browser may not support canvas</canvas>
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
@@ -29,6 +46,10 @@
       </div>
       <p id="demo"></p>
       <script src="drawboard.js"></script>
+    </div>
+
+    <div id="currentUsers">
+      <p id="thisUser"></p>
     </div>
   </body>
 </html>
