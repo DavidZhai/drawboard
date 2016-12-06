@@ -32,7 +32,7 @@ io.on('connection', function(socket){
     io.emit('chat message', msg);
   });
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    console.log(connectedUsers[socket.id] 'disconnected');
   });
 
   // socket.on('server erase rectangle', function(erasingBuffer) {
