@@ -32,7 +32,12 @@ io.on('connection', function(socket){
     io.emit('chat message', msg);
   });
   socket.on('disconnect', function(){
-    console.log(connectedUsers[socket.id] 'disconnected');
+    if (typeof connectedUsers[socket.id] === 'undefined') {
+      console.log("some random user disconnected");
+    } else {
+      console.log(connectedUsers[socket.id] + ' has disconnected');
+      delete connectedUsers[socket.id];
+    }
   });
 
   // socket.on('server erase rectangle', function(erasingBuffer) {
@@ -54,6 +59,10 @@ io.on('connection', function(socket){
     masterBackground = {img : image, imgHeight : height, imgWidth : width};
     io.emit('client draw image', image, height, width);
   });
+  // Periodically update everything to master version
+  setInterval(function() {
+    console.log("Syncing Server");
+  }, 5000);
   // synchronize with server every 5 seconds
   // setInterval(function() {
   //   io.emit('client clear canvas');
