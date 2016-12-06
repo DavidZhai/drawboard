@@ -8,7 +8,8 @@ var PORT = 8080;
 // stores the master copy of drawings on the canvas
 var masterBuffer = [];
 var masterBackground = {};
-var connectedUsers = [];
+var idToUsernameMap = [];
+var onlineUsers = [];
 
 // use this to serve static files like .js and .css
 app.use(express.static('static'));
@@ -21,22 +22,31 @@ app.get('/', function(req, res){
 // socket io operations
 io.on('connection', function(socket){
   socket.on("join" , function(name) {
-    connectedUsers[socket.id] = name;
+    idToUsernameMap[socket.id] = name;
+    onlineUsers.push(name);
     console.log("user " + name + " has joined");
     socket.emit('user is logged in', name);
+    io.emit('update online list', onlineUsers);
+    console.log(onlineUsers);
+    // update user state to master copy
+    refresh();
   });
-  if (masterBackground.hasOwnProperty('img')) io.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
-  socket.emit('client draw batch lines', masterBuffer);  // send client master copy
   socket.on('chat message', function(msg){
   	console.log(msg);
     io.emit('chat message', msg);
   });
   socket.on('disconnect', function(){
-    if (typeof connectedUsers[socket.id] === 'undefined') {
+    if (typeof idToUsernameMap[socket.id] === 'undefined') {
       console.log("some random user disconnected");
     } else {
-      console.log(connectedUsers[socket.id] + ' has disconnected');
-      delete connectedUsers[socket.id];
+      console.log(idToUsernameMap[socket.id] + ' has disconnected');
+      // remove from online list
+      for(var i = 0; i < onlineUsers.length; i++){
+        if (onlineUsers[i] === idToUsernameMap[socket.id]) onlineUsers.splice(i, 1);
+      }
+      // remove from map
+      delete idToUsernameMap[socket.id];
+      io.emit('update online list', onlineUsers);
     }
   });
 
@@ -59,9 +69,8 @@ io.on('connection', function(socket){
     masterBackground = {img : image, imgHeight : height, imgWidth : width};
     io.emit('client draw image', image, height, width);
   });
-  // Periodically update everything to master version
   setInterval(function() {
-    console.log("Syncing Server");
+    refresh();
   }, 5000);
   // synchronize with server every 5 seconds
   // setInterval(function() {
@@ -69,6 +78,12 @@ io.on('connection', function(socket){
   //   io.emit('client draw batch lines', drawingBuffer);
   // }, 5000);
 
+  // syncs everything to master state
+  function refresh() {
+    if (masterBackground.hasOwnProperty('img')) io.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
+    socket.emit('client draw batch lines', masterBuffer);  // send client master copy
+    io.emit('update online list', onlineUsers);
+  }
 });
 
 http.listen(PORT, function(){

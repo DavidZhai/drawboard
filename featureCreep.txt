@@ -7,4 +7,4 @@
 6. Shapes, circles, rectangles
 7. emojis, stickers
 8. Chatroom name, list of users- no profile, just enter name
-9.
+9.  kind of works- however issues with multiple users with same name, need to enforce name length,

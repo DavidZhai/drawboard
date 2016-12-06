@@ -26,6 +26,13 @@ $('#login-modal').modal({
 //     }
 // });
 
+// $("#username").keyup(function(event){
+//   if(event.which == 13){
+//     window.alert("ASDGDSGa");
+//     loginUser();
+//     }
+// });
+
 loginButton.addEventListener('click', function(e) {
   var username = document.getElementById("username").value;
   socket.emit('join', username);
@@ -129,9 +136,19 @@ function draw(e) {
   document.getElementById("demo").innerHTML = coor;
 }
 
+socket.on('update online list', function(onlineUsers) {
+  var activeUserList = document.getElementById("activeUserList");
+  activeUserList.innerHTML = '';
+  onlineUsers.forEach(function(user) {
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(user));
+    activeUserList.appendChild(li);
+  });
+});
+
 socket.on('user is logged in', function(username) {
   $('#login-modal').modal('hide');
-  document.getElementById("thisUser").innerHTML = username;
+  document.getElementById("thisUser").innerHTML = 'Welcome, ' + username;
 });
 
 socket.on('client clear canvas', function() {

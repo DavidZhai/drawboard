@@ -19,7 +19,7 @@
         <div class="loginmodal-container">
         	<h1>Welcome to Collaborative Drawing Board!</h1><br>
           <form>
-        		<input id="username" type="text" name="user" placeholder="Enter your name" pattern=".{3,10}" required title="3 to 10 characters">
+        		<input id="username" type="text" name="user" placeholder="Enter your name" pattern=".{3,20}" required title="3 to 1 characters">
             <button id="login" type="button" class="btn btn-default">Join a room</button>
           </form>
         </div>
@@ -50,6 +50,8 @@
 
     <div id="currentUsers">
       <p id="thisUser"></p>
+      <p> Users currently online: </p>
+      <ul id="activeUserList"></ul>
     </div>
   </body>
 </html>
