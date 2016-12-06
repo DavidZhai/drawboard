@@ -132,8 +132,8 @@ function draw(e) {
   previousX = x;
   previousY = y;
 
-  var coor = "Coordinates: (" + x + "," + y + ")";
-  document.getElementById("demo").innerHTML = coor;
+  //var coor = "Coordinates: (" + x + "," + y + ")";
+  //document.getElementById("demo").innerHTML = coor;
 }
 
 socket.on('update online list', function(onlineUsers) {
@@ -148,7 +148,7 @@ socket.on('update online list', function(onlineUsers) {
 
 socket.on('user is logged in', function(username) {
   $('#login-modal').modal('hide');
-  document.getElementById("thisUser").innerHTML = 'Welcome, ' + username;
+  //document.getElementById("thisUser").innerHTML = 'Welcome, ' + username;
 });
 
 socket.on('client clear canvas', function() {

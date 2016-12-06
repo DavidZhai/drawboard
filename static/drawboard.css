@@ -36,11 +36,12 @@
 #mainArea {
     width: 500px;
     margin: 0 auto;
+    padding-top: 50px;
 }
 
-.container {
-    position: absolute;
-    width: 85%;
+.workspace {
+    width: 85vw;
+    padding: 0;
 }
 
 .sidebar > * {
@@ -67,6 +68,14 @@
     margin: 0;
     padding: 10px;
     color: #fff;
+}
+
+.btn {
+    border-radius: 0px !important;
+}
+
+.drawing-toolbar {
+    position: absolute;
 }
 
 /* Login Modal taken and modified from http://bootsnipp.com/snippets/featured/clean-modal-login-form */

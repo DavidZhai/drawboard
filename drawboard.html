@@ -30,12 +30,11 @@
       <h3 class="title">Collaborative Drawing Panel</h3>
     </div>
 
-    <div class="container">
-      <div id="mainArea">
-        <input type="file" id="imageUpload"/>
-        <canvas id="drawingPanel" width="500px" height="400px">Your browser may not support canvas</canvas>
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-          <div class="btn-group" role="group">
+    <div class="workspace">
+
+      <div class="drawing-toolbar">
+        <div class="btn-group-vertical">
+         <div class="btn-group" role="group">
             <button id="clearButton" type="button" class="btn btn-default">Clear</button>
           </div>
           <div class="btn-group" role="group">
@@ -48,6 +47,11 @@
             <button id="downloadButton" type="button" class="btn btn-default">Save as Image</button>
           </div>
         </div>
+        <input type="file" id="imageUpload"/>
+      </div>
+
+      <div id="mainArea">
+        <canvas id="drawingPanel" width="500px" height="400px">Your browser may not support canvas</canvas>
         <!--<p id="demo"></p> -->
         <script src="drawboard.js"></script>
       </div>
