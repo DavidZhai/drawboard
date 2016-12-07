@@ -14,10 +14,113 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
+var widthOfPen = 1;
+var width_1 = document.getElementById("width_1");
+var width_5 = document.getElementById("width_5");
+var width_10 = document.getElementById("width_10");
+var width_15 = document.getElementById("width_15");
+
+width_1.addEventListener('click', function(e) {
+  console.log("Change widto to 1");
+  widthOfPen = 1;
+});
+
+width_5.addEventListener('click', function(e) {
+  console.log("Change widto to 5");
+  widthOfPen = 5;
+});
+
+width_10.addEventListener('click', function(e) {
+  console.log("Change widto to 10");
+  widthOfPen = 10;
+});
+
+width_15.addEventListener('click', function(e) {
+  console.log("Change widto to 15");
+  widthOfPen = 15;
+});
+
+
+var colorOfPen = '#000000';
+var black = document.getElementById("black");
+var red = document.getElementById("red");
+var orange = document.getElementById("orange");
+var yellow = document.getElementById("yellow");
+var green = document.getElementById("green");
+var blue = document.getElementById("blue");
+var purple = document.getElementById("purple");
+
+black.addEventListener('click', function(e) {
+  console.log("Switch color to black");
+  colorOfPen = '#000000';
+});
+
+red.addEventListener('click', function(e) {
+  console.log("Switch color to red");
+  colorOfPen = '#ff0000';
+});
+
+orange.addEventListener('click', function(e) {
+  console.log("Switch color to orange");
+  colorOfPen = '#ffA500';
+});
+
+yellow.addEventListener('click', function(e) {
+  console.log("Switch color to yellow");
+  colorOfPen = '#ffff00';
+});
+
+green.addEventListener('click', function(e) {
+  console.log("Switch color to green");
+  colorOfPen = '#00ff00';
+});
+
+blue.addEventListener('click', function(e) {
+  console.log("Switch color to blue");
+  colorOfPen = '#0000ff';
+});
+
+purple.addEventListener('click', function(e) {
+  console.log("Switch color to purple");
+  colorOfPen = '#551a8b';
+});
+
+
 $('#login-modal').modal({
     backdrop: 'static',
     keyboard: false
 });
+
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function colorMenu() {
+  document.getElementById("colors").classList.toggle("show");
+}
+
+function widthMenu() {
+  document.getElementById("widths").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+
+
+
+
 
 //
 // $('#username input').keydown(function(e) {
@@ -126,7 +229,9 @@ function draw(e) {
       previousY: previousY,
       x: x,
       y: y,
-      erase: usingEraser  // temporal fix  boolean indiates eraser
+      erase: usingEraser,  // temporal fix  boolean indiates eraser
+      color: colorOfPen,
+      width: widthOfPen
     })
   }
   previousX = x;
@@ -166,31 +271,19 @@ socket.on('client draw image', function(image, height, width) {
   context.drawImage(img, 0, 0, width, height, 0, 0, panel.width, panel.height);
 });
 
-// socket.on('client erase rectangle', function(serverErasingPanel) {
-//   var pen = panel.getContext("2d");
-//   serverErasingPanel.forEach(function(line) {
-//     pen.clearRect(line.previousX, line.previousY, 20, 20);
-//   });
-// });
-
 socket.on('client draw batch lines', function(serverDrawingPanel) {
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
     console.log(line);
-    // if (line.erase) {
-    //   pen.clearRect(line.previousX, line.previousY, 10, 10);
-    // } else {
-    pen.beginPath();
-    pen.moveTo(line.previousX, line.previousY);
-    pen.lineTo(line.x, line.y);
     if (line.erase) {
-      pen.strokeStyle = '#FFFFFF';
-      pen.lineWidth= 15;
+      pen.clearRect(line.x, line.y, 20, 20);
     } else {
-      pen.strokeStyle = '#000000';
-      pen.lineWidth= 1;
+      pen.beginPath();
+      pen.moveTo(line.previousX, line.previousY);
+      pen.lineTo(line.x, line.y);
+      pen.strokeStyle = line.color;
+      pen.lineWidth = line.width;
+      pen.stroke();
     }
-    pen.stroke();
-    // }
   });
 });

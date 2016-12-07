@@ -50,11 +50,6 @@ io.on('connection', function(socket){
     }
   });
 
-  // socket.on('server erase rectangle', function(erasingBuffer) {
-  //   eraseBuffer.push.apply(eraseBuffer, erasingBuffer);
-  //   io.emit('client erase rectangle', erasingBuffer);
-  // });
-
   socket.on('server draw batch lines', function(drawingBuffer) {
     masterBuffer.push.apply(masterBuffer, drawingBuffer);
     io.emit('client draw batch lines', drawingBuffer);
@@ -62,6 +57,7 @@ io.on('connection', function(socket){
 
   socket.on('server clear canvas', function() {
     masterBuffer = [];
+    masterBackground = [];
     io.emit('client clear canvas');
   });
 

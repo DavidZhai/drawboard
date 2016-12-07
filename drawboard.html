@@ -19,7 +19,7 @@
         <div class="loginmodal-container">
         	<h1>Welcome to Collaborative Drawing Board!</h1><br>
           <form>
-        		<input id="username" type="text" name="user" placeholder="Enter your name" pattern=".{3,20}" required title="3 to 1 characters">
+        		<input id="username" type="text" name="user" placeholder="Enter your name" pattern=".{3,20}" required title="3 to 20 characters">
             <button id="login" type="button" class="btn btn-default">Join a room</button>
           </form>
         </div>
@@ -45,6 +45,27 @@
           </div>
           <div class="btn-group" role="group">
             <button id="downloadButton" type="button" class="btn btn-default">Save as Image</button>
+          </div>
+          <div class ="dropdown">
+            <button onclick="colorMenu()" class="dropbtn">Colors</button>
+            <div id="colors" class="dropdown-content">
+              <a id="black" type="button" class="btn btn-default">Black</a>
+              <a id="red" type="button" class="btn btn-default">Red</a>
+              <a id="orange" type="button" class="btn btn-default">Orange</a>
+              <a id="yellow" type="button" class="btn btn-default">Yellow</a>
+              <a id="green" type="button" class="btn btn-default">Green</a>
+              <a id="blue" type="button" class="btn btn-default">Blue</a>
+              <a id="purple" type="button" class="btn btn-default">Purple</a>
+            </div>
+          </div>
+          <div class ="dropdown">
+            <button onclick="widthMenu()" class="dropbtn">Width</button>
+            <div id="widths" class="dropdown-content">
+              <a id="width_1" type="button" class="btn btn-default">1</a>
+              <a id="width_5" type="button" class="btn btn-default">5</a>
+              <a id="width_10" type="button" class="btn btn-default">10</a>
+              <a id="width_15" type="button" class="btn btn-default">15</a>
+            </div>
           </div>
         </div>
         <input type="file" id="imageUpload"/>
