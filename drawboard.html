@@ -30,84 +30,71 @@
     <div class="banner">
       <h3 class="title">Collaborative Drawing Panel</h3>
     </div>
-
-    <div class="workspace">
-
-      <div class="drawing-toolbar">
-        <div class="btn-group-vertical">
-         <div class="btn-group" role="group">
-            <button id="clearButton" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button id="pen" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button id="eraser" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button id="downloadButton" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button id="imageButton" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button id="colorButton" type="button" class="btn btn-default">
-              <input type="color" id="colorInput"/>
-            </button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default">
-              <i class="fa fa-paint-brush" aria-hidden="true"></i><input id="brushSize" type="number" name="quantity" min="1" max="20" value="1">
-            </button>
-          </div>
-          <!--
-          <div class ="dropdown btn-group" role="group">
-            <button onclick="colorMenu()" class="dropbtn">Colors</button>
-            <div id="colors" class="dropdown-content">
-              <a id="black" type="button" class="btn btn-default">Black</a>
-              <a id="red" type="button" class="btn btn-default">Red</a>
-              <a id="orange" type="button" class="btn btn-default">Orange</a>
-              <a id="yellow" type="button" class="btn btn-default">Yellow</a>
-              <a id="green" type="button" class="btn btn-default">Green</a>
-              <a id="blue" type="button" class="btn btn-default">Blue</a>
-              <a id="purple" type="button" class="btn btn-default">Purple</a>
+      <div class="workspace row">
+        <div class="drawing-toolbar col-sm-2">
+          <div class="btn-group-vertical">
+           <div class="btn-group" role="group">
+              <button id="clearButton" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button id="pen" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button id="eraser" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button id="downloadButton" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button id="imageButton" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button id="colorButton" type="button" class="btn btn-default">
+                <input type="color" id="colorInput"/>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default">
+                <i class="fa fa-paint-brush" aria-hidden="true"></i><input id="brushSize" type="number" name="quantity" min="1" max="20" value="1">
+              </button>
             </div>
           </div>
-          <div class ="dropdown">
-            <button onclick="widthMenu()" class="dropbtn">Width</button>
-            <div id="widths" class="dropdown-content">
-              <a id="width_1" type="button" class="btn btn-default">1</a>
-              <a id="width_5" type="button" class="btn btn-default">5</a>
-              <a id="width_10" type="button" class="btn btn-default">10</a>
-              <a id="width_15" type="button" class="btn btn-default">15</a>
-            </div>
-          </div>
-        -->
+          <input type="file" id="imageUpload"/>
         </div>
-        <input type="file" id="imageUpload"/>
-      </div>
-      
-      <div id="mainArea">
-        <canvas id="drawingPanel" width="500px" height="400px">Your browser may not support canvas</canvas>
-        <!--<p id="demo"></p> -->
-        <script src="drawboard.js"></script>
-      </div>
-    </div>
+        
+        <div id="mainArea" class="col-sm-8">
+          <canvas id="drawingPanel">Your browser may not support canvas</canvas>
+          <!--<p id="demo"></p> -->
+          <script src="drawboard.js"></script>
+        </div>
 
-    <div class="sidebar"> 
+        <div class="col-sm-2">
+          <div class="container-fluid"> 
+            <div class="navbar-inverse">
+              <ul class="nav navbar-nav">
+                <li ><a>Messages<span style="font-size:16px;" class="pull-right showopacity glyphicon glyphicon-user"></span></a></li>
+               <li ><a>Messages<span style="font-size:16px;" class="pull-right showopacity glyphicon glyphicon-user"></span></a></li>
+                <li ><a>Messages<span style="font-size:16px;" class="pull-right showopacity glyphicon glyphicon-user"></span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--
+    <div class="sidebar col-sm-2"> 
       <h4>Users</h4>
       <ul id="activeUserList"></ul>
-    </div>
+    </div> -->
 
     <!--
     <div id="currentUsers">

@@ -16,7 +16,7 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
-panel.height = 1000;
+panel.height = 600;
 panel.width = 1000;
 
 chooseColorButton.addEventListener('click', function(e) {

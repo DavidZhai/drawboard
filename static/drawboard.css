@@ -32,15 +32,9 @@
 }
 
 #mainArea {
-    width: 500px;
-    margin: 0 auto;
     padding-top: 50px;
 }
 
-.workspace {
-    width: 85vw;
-    padding: 0;
-}
 
 .sidebar > * {
     color: #fff;
@@ -50,7 +44,6 @@
     width: 15vw;
     height: 100vh;
     background-color: #1a1a1a;
-    position: fixed;
     right: 0;
     top: 50px;
     padding-left: 10px;
@@ -216,3 +209,21 @@
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+/****** END LOGIN MODAL ******/
+
+
+/** Styling for online users sidebar **/
+
+li:first-child {
+    border-top: 1px #e5e5e5 solid;
+}
+
+li {
+    border-bottom: 1px #e5e5e5 solid;
+}
+
+li {
+    width: 100%;
+}
+
