@@ -16,6 +16,9 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
+panel.height = 1000;
+panel.width = 1000;
+
 chooseColorButton.addEventListener('click', function(e) {
   document.getElementById('colorInput').click();
 });
@@ -257,6 +260,7 @@ socket.on('update online list', function(onlineUsers) {
   onlineUsers.forEach(function(user) {
     var li = document.createElement("li");
     li.appendChild(document.createTextNode(user));
+  //  li.className += 'list-group-item';
     activeUserList.appendChild(li);
   });
 });
