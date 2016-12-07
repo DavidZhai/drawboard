@@ -259,8 +259,10 @@ socket.on('update online list', function(onlineUsers) {
   activeUserList.innerHTML = '';
   onlineUsers.forEach(function(user) {
     var li = document.createElement("li");
+    var innerDiv = document.createElement("div");
+    innerDiv.className += "pull-right glyphicon glyphicon-user";
     li.appendChild(document.createTextNode(user));
-  //  li.className += 'list-group-item';
+    li.appendChild(innerDiv);
     activeUserList.appendChild(li);
   });
 });

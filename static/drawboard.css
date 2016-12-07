@@ -45,8 +45,7 @@
     height: 100vh;
     background-color: #1a1a1a;
     right: 0;
-    top: 50px;
-    padding-left: 10px;
+    padding: 0px 10px;
 }
 
 .banner {
@@ -95,7 +94,14 @@ li {
   line-height: 40px;
   white-space: nowrap;
   height: 40px;
+  padding-left: 20px;
 }
+
+.glyphicon-user {
+
+  color: green;
+}
+
 
 /* Login Modal taken and modified from http://bootsnipp.com/snippets/featured/clean-modal-login-form */
 
