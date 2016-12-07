@@ -6,6 +6,8 @@ var useEraser = document.getElementById('eraser');
 var usePen = document.getElementById('pen');
 var imageUploader = document.getElementById('imageUpload');
 var downloadButton = document.getElementById('downloadButton');
+var chooseColorButton = document.getElementById('colorButton');
+var imageButton = document.getElementById('imageButton');
 var loginButton = document.getElementById('login');
 var isDrawing = false;  //toggle for drawing
 var usingEraser = false;
@@ -14,76 +16,84 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
+chooseColorButton.addEventListener('click', function(e) {
+  document.getElementById('colorInput').click();
+});
+
+imageButton.addEventListener('click', function(e) {
+  document.getElementById('imageUpload').click();
+});
+
 var widthOfPen = 1;
-var width_1 = document.getElementById("width_1");
-var width_5 = document.getElementById("width_5");
-var width_10 = document.getElementById("width_10");
-var width_15 = document.getElementById("width_15");
+// var width_1 = document.getElementById("width_1");
+// var width_5 = document.getElementById("width_5");
+// var width_10 = document.getElementById("width_10");
+// var width_15 = document.getElementById("width_15");
 
-width_1.addEventListener('click', function(e) {
-  console.log("Change widto to 1");
-  widthOfPen = 1;
-});
+// width_1.addEventListener('click', function(e) {
+//   console.log("Change widto to 1");
+//   widthOfPen = 1;
+// });
 
-width_5.addEventListener('click', function(e) {
-  console.log("Change widto to 5");
-  widthOfPen = 5;
-});
+// width_5.addEventListener('click', function(e) {
+//   console.log("Change widto to 5");
+//   widthOfPen = 5;
+// });
 
-width_10.addEventListener('click', function(e) {
-  console.log("Change widto to 10");
-  widthOfPen = 10;
-});
+// width_10.addEventListener('click', function(e) {
+//   console.log("Change widto to 10");
+//   widthOfPen = 10;
+// });
 
-width_15.addEventListener('click', function(e) {
-  console.log("Change widto to 15");
-  widthOfPen = 15;
-});
+// width_15.addEventListener('click', function(e) {
+//   console.log("Change widto to 15");
+//   widthOfPen = 15;
+// });
 
 
 var colorOfPen = '#000000';
-var black = document.getElementById("black");
-var red = document.getElementById("red");
-var orange = document.getElementById("orange");
-var yellow = document.getElementById("yellow");
-var green = document.getElementById("green");
-var blue = document.getElementById("blue");
-var purple = document.getElementById("purple");
+// var black = document.getElementById("black");
+// var red = document.getElementById("red");
+// var orange = document.getElementById("orange");
+// var yellow = document.getElementById("yellow");
+// var green = document.getElementById("green");
+// var blue = document.getElementById("blue");
+// var purple = document.getElementById("purple");
 
-black.addEventListener('click', function(e) {
-  console.log("Switch color to black");
-  colorOfPen = '#000000';
-});
+// black.addEventListener('click', function(e) {
+//   console.log("Switch color to black");
+//   colorOfPen = '#000000';
+// });
 
-red.addEventListener('click', function(e) {
-  console.log("Switch color to red");
-  colorOfPen = '#ff0000';
-});
+// red.addEventListener('click', function(e) {
+//   console.log("Switch color to red");
+//   colorOfPen = '#ff0000';
+// });
 
-orange.addEventListener('click', function(e) {
-  console.log("Switch color to orange");
-  colorOfPen = '#ffA500';
-});
+// orange.addEventListener('click', function(e) {
+//   console.log("Switch color to orange");
+//   colorOfPen = '#ffA500';
+// });
 
-yellow.addEventListener('click', function(e) {
-  console.log("Switch color to yellow");
-  colorOfPen = '#ffff00';
-});
+// yellow.addEventListener('click', function(e) {
+//   console.log("Switch color to yellow");
+//   colorOfPen = '#ffff00';
+// });
 
-green.addEventListener('click', function(e) {
-  console.log("Switch color to green");
-  colorOfPen = '#00ff00';
-});
+// green.addEventListener('click', function(e) {
+//   console.log("Switch color to green");
+//   colorOfPen = '#00ff00';
+// });
 
-blue.addEventListener('click', function(e) {
-  console.log("Switch color to blue");
-  colorOfPen = '#0000ff';
-});
+// blue.addEventListener('click', function(e) {
+//   console.log("Switch color to blue");
+//   colorOfPen = '#0000ff';
+// });
 
-purple.addEventListener('click', function(e) {
-  console.log("Switch color to purple");
-  colorOfPen = '#551a8b';
-});
+// purple.addEventListener('click', function(e) {
+//   console.log("Switch color to purple");
+//   colorOfPen = '#551a8b';
+// });
 
 
 $('#login-modal').modal({
@@ -230,8 +240,8 @@ function draw(e) {
       x: x,
       y: y,
       erase: usingEraser,  // temporal fix  boolean indiates eraser
-      color: colorOfPen,
-      width: widthOfPen
+      color: document.getElementById('colorInput').value,
+      width: document.getElementById('brushSize').value
     })
   }
   previousX = x;

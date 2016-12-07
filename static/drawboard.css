@@ -74,8 +74,16 @@
     border-radius: 0px !important;
 }
 
+#imageUpload {
+    display: none;
+}
+
 .drawing-toolbar {
     position: absolute;
+}
+
+#brushSize {
+    margin-left: 10px;
 }
 
 /* Login Modal taken and modified from http://bootsnipp.com/snippets/featured/clean-modal-login-form */
