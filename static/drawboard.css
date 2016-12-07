@@ -86,6 +86,10 @@
     margin-left: 10px;
 }
 
+#colorInput {
+    padding: 0px;
+}
+
 /* Login Modal taken and modified from http://bootsnipp.com/snippets/featured/clean-modal-login-form */
 
 /****** LOGIN MODAL ******/
