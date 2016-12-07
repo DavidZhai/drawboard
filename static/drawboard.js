@@ -283,6 +283,8 @@ socket.on('client draw batch lines', function(serverDrawingPanel) {
       pen.lineTo(line.x, line.y);
       pen.strokeStyle = line.color;
       pen.lineWidth = line.width;
+      pen.lineJoin = "round";
+      pen.lineCap = "round";
       pen.stroke();
     }
   });
