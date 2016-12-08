@@ -16,8 +16,23 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
-panel.height = 600;
-panel.width = 1000;
+
+window.onresize = function(event) {
+  var oldCanvas = panel.toDataURL('image/png');
+  var oldHeight = panel.height;
+  var oldWidth = panel.width;
+  var img = new Image();
+  img.src = oldCanvas;
+  img.onload = function() {
+    panel.height = window.innerHeight - 50;
+    panel.width = window.innerWidth * .85;
+    var context = panel.getContext("2d");
+    context.drawImage(img, 0, 0, oldWidth, oldHeight, 0, 0, panel.width, panel.height);
+  }
+};
+
+panel.height = window.innerHeight - 50;
+panel.width = window.innerWidth * .85;
 
 chooseColorButton.addEventListener('click', function(e) {
   document.getElementById('colorInput').click();
@@ -259,10 +274,12 @@ socket.on('update online list', function(onlineUsers) {
   activeUserList.innerHTML = '';
   onlineUsers.forEach(function(user) {
     var li = document.createElement("li");
-    var innerDiv = document.createElement("div");
-    innerDiv.className += "pull-right glyphicon glyphicon-user";
+    var innerSpan = document.createElement("span");
+    innerSpan.className += "glyphicon glyphicon-user";
+    innerSpan.style.paddingRight = "10px";
+    li.appendChild(innerSpan);
     li.appendChild(document.createTextNode(user));
-    li.appendChild(innerDiv);
+    
     activeUserList.appendChild(li);
   });
 });

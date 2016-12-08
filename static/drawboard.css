@@ -17,8 +17,6 @@
 
 #drawingPanel {
 	/* don't touch height/width in css */
-	border: 1px solid #000000;
-	clear: both;
 }
 
 #drawingPanel:hover {
@@ -31,10 +29,10 @@
     right: 0;
 }
 
-#mainArea {
-    padding-top: 50px;
+#workspace {
+    width: 85vw;
+    height: calc(100vh - 50px);
 }
-
 
 .sidebar > * {
     color: #fff;
@@ -42,10 +40,12 @@
 
 .sidebar {
     width: 15vw;
-    height: 100vh;
+    height: calc(100vh - 50px);
     background-color: #1a1a1a;
     right: 0;
+    top: 50px;
     padding: 0px 10px;
+    position: absolute;
 }
 
 .banner {
@@ -91,15 +91,14 @@ ul {
 }
 
 li {
-  line-height: 40px;
+  line-height: 20px;
   white-space: nowrap;
-  height: 40px;
-  padding-left: 20px;
+  height: 20px;
+  padding-left: 15px;
 }
 
 .glyphicon-user {
-
-  color: green;
+  color: #00cc00;
 }
 
 
@@ -237,7 +236,7 @@ li {
 
 /** Styling for online users sidebar **/
 
-li:first-child {
+/*li:first-child {
     border-top: 1px #e5e5e5 solid;
 }
 
@@ -248,4 +247,4 @@ li {
 li {
     width: 100%;
 }
-
+*/

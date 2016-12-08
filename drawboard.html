@@ -30,8 +30,7 @@
     <div class="banner">
       <h3 class="title">Collaborative Drawing Panel</h3>
     </div>
-      <div class="row" id="workspace">
-        <div class="col-sm-2">
+      <div id="workspace">
           <div class="drawing-toolbar">
             <div class="btn-group-vertical">
              <div class="btn-group" role="group">
@@ -71,22 +70,16 @@
               </div>
             </div>
             <input type="file" id="imageUpload"/>
-          </div>
         </div>
+        <canvas id="drawingPanel">Your browser may not support canvas</canvas>
+        <!--<p id="demo"></p> -->
+        <script src="drawboard.js"></script>
 
-        <div class="col-sm-8">
-          <div id="mainArea">
-            <canvas id="drawingPanel">Your browser may not support canvas</canvas>
-            <!--<p id="demo"></p> -->
-            <script src="drawboard.js"></script>
-          </div>
-        </div>
-
-        <div class="col-sm-2 sidebar">
+      </div>
+      <div class="sidebar">
           <h4>Users</h4>
           <ul id="activeUserList">
           </ul> 
-        </div>
       </div>
     <!--
     <div class="sidebar col-sm-2"> 
