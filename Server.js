@@ -61,6 +61,11 @@ io.on('connection', function(socket){
     io.emit('client clear canvas');
   });
 
+  socket.on('client resize window', function() {
+    if (masterBackground.hasOwnProperty('img')) socket.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
+    socket.emit('client draw batch lines', masterBuffer);  // send client master copy
+  }); 
+
   socket.on('server draw image', function(image, height, width) {
     masterBackground = {img : image, imgHeight : height, imgWidth : width};
     io.emit('client draw image', image, height, width);
@@ -76,7 +81,7 @@ io.on('connection', function(socket){
 
   // syncs everything to master state
   function refresh() {
-    if (masterBackground.hasOwnProperty('img')) io.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
+    if (masterBackground.hasOwnProperty('img')) socket.emit('client draw image', masterBackground.img, masterBackground.imgHeight, masterBackground.imgWidth);
     socket.emit('client draw batch lines', masterBuffer);  // send client master copy
     io.emit('update online list', onlineUsers);
   }

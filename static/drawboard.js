@@ -16,19 +16,26 @@ var drawingBuffer = [];
 var previousX;
 var previouxY;
 
-
 window.onresize = function(event) {
-  var oldCanvas = panel.toDataURL('image/png');
-  var oldHeight = panel.height;
-  var oldWidth = panel.width;
-  var img = new Image();
-  img.src = oldCanvas;
-  img.onload = function() {
-    panel.height = window.innerHeight - 50;
-    panel.width = window.innerWidth * .85;
-    var context = panel.getContext("2d");
-    context.drawImage(img, 0, 0, oldWidth, oldHeight, 0, 0, panel.width, panel.height);
-  }
+  var pen = panel.getContext("2d");
+  panel.height = window.innerHeight - 50;
+  panel.width = window.innerWidth * .85;
+  pen.clearRect(0, 0, panel.width, panel.height);
+  socket.emit("client resize window");
+  // var oldCanvas = panel.toDataURL('image/png');
+  // var oldHeight = panel.height;
+  // var oldWidth = panel.width;
+  // var img = new Image();
+  // img.src = oldCanvas;
+  // img.onload = function() {
+  //   panel.height = window.innerHeight - 50;
+  //   panel.width = window.innerWidth * .85;
+  //   var context = panel.getContext("2d");
+  //   context.webkitImageSmoothingEnabled = false;
+  //   context.mozImageSmoothingEnabled = false;
+  //   context.imageSmoothingEnabled = false
+  //   context.drawImage(img, 0, 0, oldWidth, oldHeight, 0, 0, panel.width, panel.height);
+  // }
 };
 
 panel.height = window.innerHeight - 50;
@@ -253,6 +260,8 @@ function draw(e) {
   if (isMoving) {
     var pen = panel.getContext("2d");
     drawingBuffer.push({
+      windowWidth: panel.width,
+      winddowHeight: panel.height,
       previousX: previousX,
       previousY: previousY,
       x: x,
@@ -307,18 +316,20 @@ socket.on('client draw image', function(image, height, width) {
 socket.on('client draw batch lines', function(serverDrawingPanel) {
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
-    console.log(line);
+    var widthScale = (panel.width / line.windowWidth).toPrecision(3);
+    var heightScale = (panel.height / line.winddowHeight).toPrecision(3);
     if (line.erase) {
-      pen.clearRect(line.x, line.y, 20, 20);
+      pen.clearRect(line.x * widthScale, line.y * heightScale, 20 * widthScale, 20 * heightScale);
     } else {
       pen.beginPath();
-      pen.moveTo(line.previousX, line.previousY);
-      pen.lineTo(line.x, line.y);
+      pen.moveTo(line.previousX * widthScale, line.previousY * heightScale);
+      pen.lineTo(line.x * widthScale, line.y * heightScale);
       pen.strokeStyle = line.color;
       pen.lineWidth = line.width;
       pen.lineJoin = "round";
       pen.lineCap = "round";
       pen.stroke();
+      pen.closePath();
     }
   });
 });
