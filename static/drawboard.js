@@ -152,36 +152,28 @@ window.onclick = function(event) {
   }
 }
 
+// allows users to login on enter key
+$(document).ready(function() {
+  $('#username').keydown(function(event) {
+    // enter has keyCode = 13, change it if you want to use another button
+    if (event.keyCode == 13) {
+      loginUser();
+      return false;
+    }
+  });
 
-
-
-
-
-//
-// $('#username input').keydown(function(e) {
-//     if (e.keyCode == 13) {
-//       window.alert("hi");
-//     }
-// });
-
-// $("#username").keyup(function(event){
-//   if(event.which == 13){
-//     window.alert("ASDGDSGa");
-//     loginUser();
-//     }
-// });
+});
 
 loginButton.addEventListener('click', function(e) {
-  var username = document.getElementById("username").value;
-  socket.emit('join', username);
-  $('#login-modal').modal({
-      backdrop: 'static',
-      keyboard: false
-  });
+    loginUser();
 });
 
 function loginUser() {
   var username = document.getElementById("username").value;
+  if (username.length < 3 || username.length > 25) {
+    alert("Please enter username between 3 and 25 characters");
+    return false;
+  }
   socket.emit('join', username);
   $('#login-modal').modal({
       backdrop: 'static',
