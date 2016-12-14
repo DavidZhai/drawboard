@@ -1,9 +1,9 @@
 # Collaborative DrawBoard
 
 The collaborative drawing board allows multiple users to simultaneously draw on the same canvas.
-Changes made by one user will be immediately visible to all other users, allowing a collaborative drawing experience.
-
-
+Changes made by one user will be immediately visible to all other users, allowing a collaborative drawing experience. 
+  
+  
 ## Installation/Usage
 
 Running this program requires Node.js along with Node Package Manager(NPM).  
@@ -19,23 +19,23 @@ A server can be started by entering `node Server.js` from main directory.
 
 The drawingboard should now be accessible by pointing browser to
 http://localhost:8080
-
-
-## FeatureList
-* Online Users list - pick a custom username on joining and display all active users
-* Clearing - wipe the canvas
-* Pen - default drawing mode
-* Eraser - clear undesired parts of drawing
-* Download - save the canvas as an image
-* Image Upload - upload a picture to draw on top of
-* Color Selection - change pen to an alternate color
+  
+    
+## Completed Features List
+- [x] Online Users list - pick a custom username on joining and display all active users
+- [x] Clearing - wipe the canvas
+- [x] Pen - default drawing mode
+- [x] Eraser - clear undesired parts of drawing
+- [x] Download - save the canvas as an image
+- [x] Image Upload - upload a picture to draw on top of
+- [x] Color Selection - change pen to an alternate color
 - [x] Pen thickness - adjust radius of drawing pen
-
-
+  
+  
 ## Tests
 
 `lol`
-
+  
 ## Contribution
 
 Feel free to fork the repository and add your own features. Here's some suggestions for additional features:
@@ -43,13 +43,14 @@ Feel free to fork the repository and add your own features. Here's some suggesti
 - [ ] Emojis/stickers - stamps for placing custom shapes on canvas
 - [ ] Custom rooms - have multiple rooms/instances
 - [ ] Undo button
-
+  
+  
 ## Technical details
 
 Our code is built on top of socket.io.
 The main canvas is implemented using HTML5 Canvas, with javascript to handle interaction with the canvas.
 Static files are served using express from the /static/ directory.
-
+  
 ## License
 
 By forking and modifying this program or accessing this repository, a user agrees to pay a sum of $10million to me.
