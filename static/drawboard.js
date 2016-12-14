@@ -15,6 +15,8 @@ var isMoving = false;  //toggle for drawing
 var drawingBuffer = [];
 var previousX;
 var previouxY;
+var startTimer;
+var numOfSample = 0;
 
 window.onresize = function(event) {
   var pen = panel.getContext("2d");
@@ -22,20 +24,6 @@ window.onresize = function(event) {
   panel.width = window.innerWidth * .85;
   pen.clearRect(0, 0, panel.width, panel.height);
   socket.emit("client resize window");
-  // var oldCanvas = panel.toDataURL('image/png');
-  // var oldHeight = panel.height;
-  // var oldWidth = panel.width;
-  // var img = new Image();
-  // img.src = oldCanvas;
-  // img.onload = function() {
-  //   panel.height = window.innerHeight - 50;
-  //   panel.width = window.innerWidth * .85;
-  //   var context = panel.getContext("2d");
-  //   context.webkitImageSmoothingEnabled = false;
-  //   context.mozImageSmoothingEnabled = false;
-  //   context.imageSmoothingEnabled = false
-  //   context.drawImage(img, 0, 0, oldWidth, oldHeight, 0, 0, panel.width, panel.height);
-  // }
 };
 
 panel.height = window.innerHeight - 50;
@@ -49,108 +37,12 @@ imageButton.addEventListener('click', function(e) {
   document.getElementById('imageUpload').click();
 });
 
-var widthOfPen = 1;
-// var width_1 = document.getElementById("width_1");
-// var width_5 = document.getElementById("width_5");
-// var width_10 = document.getElementById("width_10");
-// var width_15 = document.getElementById("width_15");
-
-// width_1.addEventListener('click', function(e) {
-//   console.log("Change widto to 1");
-//   widthOfPen = 1;
-// });
-
-// width_5.addEventListener('click', function(e) {
-//   console.log("Change widto to 5");
-//   widthOfPen = 5;
-// });
-
-// width_10.addEventListener('click', function(e) {
-//   console.log("Change widto to 10");
-//   widthOfPen = 10;
-// });
-
-// width_15.addEventListener('click', function(e) {
-//   console.log("Change widto to 15");
-//   widthOfPen = 15;
-// });
-
-
-var colorOfPen = '#000000';
-// var black = document.getElementById("black");
-// var red = document.getElementById("red");
-// var orange = document.getElementById("orange");
-// var yellow = document.getElementById("yellow");
-// var green = document.getElementById("green");
-// var blue = document.getElementById("blue");
-// var purple = document.getElementById("purple");
-
-// black.addEventListener('click', function(e) {
-//   console.log("Switch color to black");
-//   colorOfPen = '#000000';
-// });
-
-// red.addEventListener('click', function(e) {
-//   console.log("Switch color to red");
-//   colorOfPen = '#ff0000';
-// });
-
-// orange.addEventListener('click', function(e) {
-//   console.log("Switch color to orange");
-//   colorOfPen = '#ffA500';
-// });
-
-// yellow.addEventListener('click', function(e) {
-//   console.log("Switch color to yellow");
-//   colorOfPen = '#ffff00';
-// });
-
-// green.addEventListener('click', function(e) {
-//   console.log("Switch color to green");
-//   colorOfPen = '#00ff00';
-// });
-
-// blue.addEventListener('click', function(e) {
-//   console.log("Switch color to blue");
-//   colorOfPen = '#0000ff';
-// });
-
-// purple.addEventListener('click', function(e) {
-//   console.log("Switch color to purple");
-//   colorOfPen = '#551a8b';
-// });
-
 
 $('#login-modal').modal({
     backdrop: 'static',
     keyboard: false
 });
 
-
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function colorMenu() {
-  document.getElementById("colors").classList.toggle("show");
-}
-
-function widthMenu() {
-  document.getElementById("widths").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
 
 // allows users to login on enter key
 $(document).ready(function() {
@@ -234,6 +126,8 @@ panel.addEventListener("mouseup", function(e) {
 // every 50 milliseconds poll for drawing updates
 setInterval(function(){
   if (drawingBuffer.length > 0) {
+    startTimer = new Date().valueOf();
+    numOfSample++;
     socket.emit('server draw batch lines', drawingBuffer);
     drawingBuffer = [];
   }
@@ -306,6 +200,7 @@ socket.on('client draw image', function(image, height, width) {
 });
 
 socket.on('client draw batch lines', function(serverDrawingPanel) {
+  console.log("Average Latency: " + ((new Date().valueOf() - startTimer) / numOfSample));
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
     var widthScale = (panel.width / line.windowWidth).toPrecision(3);
