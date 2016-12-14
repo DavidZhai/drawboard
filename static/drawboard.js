@@ -202,7 +202,7 @@ socket.on('client draw image', function(image, height, width) {
 
 socket.on('client draw batch lines', function(serverDrawingPanel) {
   averageSum += new Date().valueOf() - startTimer;
-  if (numOfSample == 100 && numOfSample != 0) {
+  if (numOfSample >= 100) {
     console.log("Average Latency: " + (averageSum / numOfSample));
     numOfSample = 0;
     averageSum = 0;
