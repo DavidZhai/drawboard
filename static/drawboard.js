@@ -17,6 +17,7 @@ var previousX;
 var previouxY;
 var startTimer;
 var numOfSample = 0;
+var averageSum = 0;
 
 window.onresize = function(event) {
   var pen = panel.getContext("2d");
@@ -200,7 +201,12 @@ socket.on('client draw image', function(image, height, width) {
 });
 
 socket.on('client draw batch lines', function(serverDrawingPanel) {
-  console.log("Average Latency: " + ((new Date().valueOf() - startTimer) / numOfSample));
+  averageSum += new Date().valueOf() - startTimer;
+  if (numOfSample == 100 && numOfSample != 0) {
+    console.log("Average Latency: " + (averageSum / numOfSample));
+    numOfSample = 0;
+    averageSum = 0;
+  }
   var pen = panel.getContext("2d");
   serverDrawingPanel.forEach(function(line) {
     var widthScale = (panel.width / line.windowWidth).toPrecision(3);
