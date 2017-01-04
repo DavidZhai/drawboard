@@ -32,10 +32,6 @@ http://localhost:8080
 - [x] Pen thickness - adjust radius of drawing pen
   
   
-## Tests
-
-`lol`
-  
 ## Contribution
 
 Feel free to fork the repository and add your own features. Here's some suggestions for additional features:
@@ -53,5 +49,4 @@ Static files are served using express from the /static/ directory.
   
 ## License
 
-By forking and modifying this program or accessing this repository, a user agrees to pay a sum of $10million to me.
-Also it would be nice if you provided a reference/link back to this repository if you use/modify the program.
+Feel free to fork and modify this program as desired. It would be nice if you provided a reference/link back to this repository if you do end up redistributing the program.
