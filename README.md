@@ -40,7 +40,7 @@ Feel free to fork the repository and add your own features. Here's some suggesti
 - [ ] Custom rooms - have multiple rooms/instances
 - [ ] Undo button
 - [ ] eraser resize button
-  
+- [ ] offline mode (skip server)
   
 ## Technical details
 
