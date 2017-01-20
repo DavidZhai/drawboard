@@ -39,6 +39,7 @@ Feel free to fork the repository and add your own features. Here's some suggesti
 - [ ] Emojis/stickers - stamps for placing custom shapes on canvas
 - [ ] Custom rooms - have multiple rooms/instances
 - [ ] Undo button
+- [ ] eraser resize button
   
   
 ## Technical details
